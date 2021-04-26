@@ -47,12 +47,13 @@ jobs:
       # Install dependencies and build app
       - name: Install Dependencies
         run: |
-          cd ..
           npm install
       - name: Install bit-bin
         run: sudo npm install bit-bin@14.8.8 -g --unsafe-perm
       - name: Bit config
         run: |
+          bit config set analytics_reporting false
+          bit config set anonymous_reporting false
           bit config
       - name: Bit import
         run: |
