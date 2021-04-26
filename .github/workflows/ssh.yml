@@ -46,7 +46,9 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
       # Install dependencies and build app
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd ..
+          npm install
       - name: Install bit-bin
         run: sudo npm install bit-bin@14.8.8 -g --unsafe-perm
       - name: Bit config
