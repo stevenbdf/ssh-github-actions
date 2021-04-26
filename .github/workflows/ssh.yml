@@ -71,14 +71,10 @@ jobs:
           bit add src/components/*
           bit status
           bit tag -a
-          bit export
+          bit export ${{ github.event.repository.name }}
       - name: Commit changes
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git config --global user.name '${{ github.actor }}'
-            git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-            git commit -a -m "Automated commit"
-            git push
-          else
-            echo "Nothing to commit";
-          fi
+          git config --global user.name '${{ github.actor }}'
+          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+          git commit -a -m "Automated commit" || echo "Error on commit"
+          git push || echo "Error on push"
