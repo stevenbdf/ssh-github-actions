@@ -20,6 +20,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
       - name: Set up remote scope
         uses: appleboy/ssh-action@master
         with:
@@ -50,8 +53,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pwd
-          cd ..
-          pwd
+          ls
           npm install
       - name: Install bit-bin
         run: sudo npm install bit-bin@14.8.8 -g --unsafe-perm
