@@ -43,4 +43,7 @@ jobs:
           username: bit
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: whoami
+          script: |
+            whoami
+            ls
+            
