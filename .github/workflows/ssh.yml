@@ -65,7 +65,7 @@ jobs:
       - name: Bit import
         run: |
           bit -v
-          bit import || echo "Error on import"
+          bit import ${{ github.event.repository.name }}/* || echo "Error on import"
       - name: Bit export
         run: |
           bit add src/components/*
