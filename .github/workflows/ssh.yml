@@ -14,13 +14,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  bit-export:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: executing remote ssh commands using ssh key
+      - name: Set up remote scope
         uses: appleboy/ssh-action@master
         with:
           host: ec2-54-80-100-75.compute-1.amazonaws.com
@@ -32,21 +32,49 @@ jobs:
             if [ -d "${{ github.event.repository.name }}" ]; then
                echo "Directory exists"
             else
-               echo "Directory doesn't exist"
+               mkdir -p ${{ github.event.repository.name }}
+               cd ${{ github.event.repository.name }}
+               bit init --bare
             fi
-      - name: Create SSH key
+      - name: Store SSH key
         run: |
           mkdir -p ~/.ssh/
           cd ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > private
-          echo "$TEST"
-          sudo chmod 600 ~/.ssh/private
+          echo "$SSH_PRIVATE_KEY" > id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
-      - name: Check SSH KEY
+      # Install dependencies and build app
+      - name: Install Dependencies
+        run: npm install
+      - name: Install bit-bin
+        run: sudo npm install bit-bin@14.8.8 -g --unsafe-perm
+      - name: Bit config
         run: |
-          cd ~/.ssh/
-          cat private
-            
+          bit config set analytics_reporting false
+          bit config set anonymous_reporting false
+          bit config ssh_key_file 
+          bit config
+          bit remote add ssh://bit@ubuntu@ec2-54-80-100-75.compute-1.amazonaws.com:/opt/bit/${{ github.event.repository.name }}
+          bit remote
+          bit import bit.envs/compilers/react --compiler
+      - name: Bit import
+        run: |
+          bit -v && bit import
+      - name: Bit export
+        run: |
+          bit add src/components/*
+          bit status
+          bit tag -a
+          bit export
+      - name: Commit changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name '${{ github.actor }}'
+            git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+            git commit -a -m "Automated commit"
+            git push
+          else
+            echo "Nothing to commit";
+          fi
