@@ -59,7 +59,7 @@
   },
   "bit": {
     "env": {},
-    "componentsDefaultDirectory": "components/{name}",
+    "componentsDefaultDirectory": "src/components/{name}",
     "packageManager": "npm"
   }
 }
