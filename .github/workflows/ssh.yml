@@ -39,8 +39,7 @@ jobs:
       - name: Store SSH key
         run: |
           mkdir -p ~/.ssh/
-          cd ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           sudo chmod 600 ~/.ssh/id_rsa
         shell: bash
         env:
