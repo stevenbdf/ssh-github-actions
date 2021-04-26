@@ -25,10 +25,12 @@ jobs:
           mkdir -p ~/.ssh/
           cd ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > private
+          echo "$TEST"
           sudo chmod 600 ~/.ssh/private
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          TEST: ${{secrets.TEST}}
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
       - name: Check SSH KEY
         run: |
