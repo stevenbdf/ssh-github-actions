@@ -82,5 +82,7 @@ jobs:
         run: |
           git config --global user.name '${{ github.actor }}'
           git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-          git commit -a -m "Automated commit" || echo "Error on commit"
+          git status
+          git add . || echo "Error on add"
+          git commit -m "Automated commit" || echo "Error on commit"
           git push || echo "Error on push"
