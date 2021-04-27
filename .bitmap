@@ -24,7 +24,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "ssh-github-actions/button@0.0.1": {
+    "ssh-github-actions/button@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/Button/Button.stories.js",
@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "ssh-github-actions/header@0.0.1": {
+    "ssh-github-actions/header@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/Header/Header.stories.js",
@@ -70,7 +70,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "ssh-github-actions/page@0.0.1": {
+    "ssh-github-actions/page@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/Page/Page.stories.js",
