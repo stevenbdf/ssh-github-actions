@@ -5,7 +5,7 @@ name: Export Bit Components
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
+  pull_request:
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -60,7 +60,7 @@ jobs:
           bit config
       - name: Bit init
         run: |
-          bit init || echo "Error on init"
+          bit init --standalone || echo "Error on init"
       - name: Bit remote
         run: |
           bit remote add ssh://bit@ec2-54-80-100-75.compute-1.amazonaws.com:/opt/bit/${{ github.event.repository.name }}
